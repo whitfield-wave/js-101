@@ -1,0 +1,51 @@
+a function that returns the sum of two numbers
+
+START 
+
+# Given a pair of numbers called "num1" and "num2"
+
+SET "result" = num1 + num2
+
+PRINT result
+
+END
+
+
+a function that takes an array of strings, and returns a string that is all those strings concatenated together
+
+START 
+
+# Given an array of strings called "strings"
+
+PRINT strings.join();
+
+
+END
+
+
+a function that takes an array of integers, and returns a new array with every other element
+
+START
+
+# Given an array of integers called "ints"
+SET iterator = 1
+SET newInts = empty array
+
+WHILE iterator <= length of ints
+	newInts.push(ints[iterator])
+	iterator += 2 
+
+print newInts
+
+END
+
+
+
+
+
+
+
+
+
+
+
