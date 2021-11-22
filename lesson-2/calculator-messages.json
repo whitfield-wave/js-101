@@ -1,0 +1,10 @@
+{
+  "en": {
+    "welcome": "Welcome to the Calculator! Enter your name:",
+    "validName": "Make sure to enter a valid name."
+  },
+  "de": {
+    "welcome": "Willkommen an den Rechner! Bitte ihre Name typen:",
+    "validName": "Bitte eine zulässige Name typen."
+  }
+}
