@@ -1,10 +1,24 @@
 {
   "en": {
-    "welcome": "Welcome to the Calculator! Enter your name:",
-    "validName": "Make sure to enter a valid name."
+    "welcome": "Welcome to the Calculator!",
+    "firstNum": "What is the first number?",
+    "secondNum": "What is the second number?",
+    "validNum": "Hmm... that doesn't look like a valid number. Try again:",
+    "operation": "What operation would you like to perfrom?:\n1) Add 2) Subtract 3) Multiply 4) Divide",
+    "invOperation": "Please choose 1, 2, 3, or 4.",
+    "result": "The result is:",
+    "repeat": "Do you want to perform another operation  y/n?",
+    "divByZero": "You can't divide by zero, silly. Please select another divisor:"
   },
   "de": {
-    "welcome": "Willkommen an den Rechner! Bitte ihre Name typen:",
-    "validName": "Bitte eine zulässige Name typen."
+    "welcome": "Willkommen an den Rechner!",
+    "firstNum": "Was ist die erste Nummer?",
+    "secondNum": "Was ist die zweite Nummer?",
+    "validNum": "Ähm... bitte eine zulässige Nummer eintypen:",
+    "operation": "Welche Operation würdest du machen?:\n1) Addieren 2) Abziehen 3) Multiplizieren 4) Dividieren",
+    "invOperation": "Bitte wählst 1, 2, 3, oder 4.",
+    "result": "Das Resultat ist:",
+    "repeat": "Würdest du eine andere Operation machen (j/n)?",
+    "divByZero": "Dividieren durch 0 ist verboten. Bitte wählst einen anderen Teiler:" 
   }
 }
