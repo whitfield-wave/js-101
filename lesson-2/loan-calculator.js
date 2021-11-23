@@ -1,4 +1,5 @@
 const readLine = require('readline-sync');
+const MONTHS_IN_YEAR = 12;
 
 function prompt(message) {
   console.log(`=> ${message}`);
@@ -13,6 +14,10 @@ function calcMonthly(principal, rate, months) {
 }
 function isInvalidNumber(num) {
   return num.trim() === '' || Number(num) < 0 || Number.isNaN(Number(num));
+}
+
+function validRepeat(response) {
+  return response.toLowerCase().startsWith('y') || response.toLowerCase().startsWith('n');
 }
 
 let repeat = true;
@@ -30,13 +35,13 @@ do {
 
 
   prompt('What is your APR percentage? (For example: 5%)');
-  let aPR = readLine.question();
+  let apr = readLine.question();
 
-  while (isInvalidNumber(aPR)) {
+  while (isInvalidNumber(apr)) {
     prompt('Please enter a valid positive number:');
-    aPR = readLine.question();
+    apr = readLine.question();
   }
-  let interest = (Number(aPR) / 100) / 12;
+  let interest = (Number(apr) / 100) / MONTHS_IN_YEAR;
 
   prompt('What is the duration of your loan? (Please enter whole years and then remaining months.)');
   prompt('Years: ');
@@ -55,7 +60,7 @@ do {
     months = readLine.question();
   }
 
-  let durationMonths = (Number(years) * 12) + Number(months);
+  let durationMonths = (Number(years) * MONTHS_IN_YEAR) + Number(months);
 
   let monthlyPayment = calcMonthly(loan, interest, durationMonths);
 
@@ -65,11 +70,16 @@ do {
 
   prompt('Would you like to calculate another loan? (y/n)');
   let answer = readLine.question();
+  while (!(validRepeat(answer))) {
+    prompt('Please enter y to continue or n to terminate program!');
+    answer = readLine.question();
+  }
 
   repeat = answer.startsWith('y');
 
-  if (repeat) console.log('\n\n');
+  console.log('\n\n');
+  console.clear();
 
 } while (repeat);
 
-prompt('\nGood luck with your loan!');
+prompt('Good luck with your loan!');
