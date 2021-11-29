@@ -1,17 +1,21 @@
 const readline = require('readline-sync');
 const VALID_CHOICES = ['rock', 'paper', 'scissors','lizard','spock'];
-
+const VALID_MOVES = {
+  rock: ['scissors', 'lizard'],
+  paper: ['rock', 'spock'],
+  scissors: ['paper', 'lizard'],
+  lizard: ['paper', 'spock' ],
+  spock: ['rock', 'scissors']
+};
 
 function prompt(message) {
   console.log(`=> ${message}`);
 }
 
+
+
 function isPlayerWinner(choice, computerChoice) {
-  return ((choice === 'rock' && (computerChoice === 'scissors' || computerChoice === 'lizard')) ||
-    (choice === 'paper' && (computerChoice === 'rock' || computerChoice === 'spock')) ||
-    (choice === 'scissors' && (computerChoice === 'paper' || computerChoice === 'lizard')) ||
-    (choice === 'lizard' && (computerChoice === 'paper' || computerChoice === 'spock')) ||
-    (choice === 'spock' && (computerChoice === 'rock' || computerChoice === 'scissors')));
+  return VALID_MOVES[choice].includes(computerChoice);
 }
 
 function displayWinner(choice, computerChoice) {
@@ -56,7 +60,7 @@ function getScoreToWin() {
 
 function getYesOrNo() {
   let input = readline.question().toLowerCase();
-  while (input[0] !== 'n' && input[0] !== 'y') {
+  while (input !== 'n' && input !== 'y') {
     prompt('Please enter "y" or "n".');
     input = readline.question().toLowerCase();
   }
@@ -103,7 +107,7 @@ while (true) {
 
     prompt('Do you want to change the winning score (y/n)?');
     let scoreChange = getYesOrNo();
-    if (scoreChange[0] === 'y') getScoreToWin();
+    if (scoreChange[0] === 'y') scoreToWin = getScoreToWin();
 
     console.clear();
   }
