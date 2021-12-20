@@ -239,14 +239,12 @@ function displayGameWinner(board, score) {
   }
 }
 
-
-
 // MAIN PROGRAM
 
 while (true) {
 
   let score = {player: 0, computer: 0};
-  let firstPlayerThisGame = FIRST_PLAYER === 'choose' ? chooseFirstPlayer(): FIRST_PLAYER;
+  let firstPlayerThisGame = FIRST_PLAYER === 'choose' ? chooseFirstPlayer() : FIRST_PLAYER;
 
   // match loop
   while (true) {
