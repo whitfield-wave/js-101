@@ -3,6 +3,7 @@ const INTIAL_MARKER = ' ';
 const FIRST_PLAYER = 'choose';
 const HUMAN_MARKER = 'X';
 const COMP_MARKER = 'O';
+const COMP_DEFAULT_MOVE = '5';
 const WINNING_SCORE = 3;
 const WINNING_LINES = [
   [1, 2, 3], [4, 5, 6], [7, 8, 9],
@@ -62,6 +63,12 @@ function playerChoosesSquare(board) {
   board[square] = HUMAN_MARKER;
 }
 
+function chooseRandomSquare(board) {
+  let randomIndex = Math.floor(Math.random() * emptySquares(board).length);
+
+  return emptySquares(board)[randomIndex];
+}
+
 function computerChoosesSquare(board) {
   if (detectThreat(board, COMP_MARKER, HUMAN_MARKER)) {
     board[detectThreat(board, COMP_MARKER, HUMAN_MARKER)] = COMP_MARKER;
@@ -69,13 +76,11 @@ function computerChoosesSquare(board) {
   } else if (detectThreat(board,HUMAN_MARKER, COMP_MARKER)) {
     board[detectThreat(board, HUMAN_MARKER, COMP_MARKER)] = COMP_MARKER;
 
-  } else if (board['5'] === ' ') {
-    board['5'] = COMP_MARKER;
-  } else {
-    let randomIndex = Math.floor(Math.random() * emptySquares(board).length);
+  } else if (board[COMP_DEFAULT_MOVE] === ' ') {
+    board[COMP_DEFAULT_MOVE] = COMP_MARKER;
 
-    let square = emptySquares(board)[randomIndex];
-    board[square] = COMP_MARKER;
+  } else {
+    board[chooseRandomSquare(board)] = COMP_MARKER;
   }
 }
 
@@ -84,10 +89,10 @@ function boardFull(board) {
 }
 
 function someoneWon(board) {
-  return !!detectWinner(board);
+  return !!detectRoundWinner(board);
 }
 
-function detectWinner(board) {
+function detectRoundWinner(board) {
 
   for (let line = 0; line < WINNING_LINES.length; line++) {
     let [sq1, sq2, sq3] = WINNING_LINES[line];
@@ -153,7 +158,7 @@ function gamePointCheck(line, attacker) {
   return line.filter(square => square === attacker).length === 2;
 }
 
-function detectMatchWinner(score) {
+function displayMatchWinner(score) {
   if (score.player === WINNING_SCORE) {
     return 'Player';
   } else if (score.computer === WINNING_SCORE) {
@@ -168,7 +173,7 @@ function displayScore(score) {
 }
 
 function keepScore(score, board) {
-  switch (detectWinner(board)) {
+  switch (detectRoundWinner(board)) {
     case 'Player':
       score.player += 1;
       break;
@@ -195,7 +200,7 @@ function alternatePlayer(currentPlayer) {
 function chooseFirstPlayer() {
   prompt('Who would you like to go first?');
   prompt('Enter "player" or "computer".');
-  let answer = rl.question().trim();
+  let answer = rl.question().trim().toLowerCase();
 
   while (!['player', 'computer'].includes(answer)) {
     prompt("Sorry, that's not a valid choice.");
@@ -231,12 +236,16 @@ function playGame(board, currentPlayer, score) {
 
 function displayGameWinner(board, score) {
   if (someoneWon(board)) {
-    prompt(`${detectWinner(board)} won!`);
+    prompt(`${detectRoundWinner(board)} won!`);
     keepScore(score, board);
     displayScore(score);
   } else {
     prompt("It's a tie!");
   }
+}
+
+function detectMatchWinner(score) {
+  return !!displayMatchWinner(score);
 }
 
 // MAIN PROGRAM
@@ -258,8 +267,8 @@ while (true) {
     displayGameWinner(board, score);
     gamePause(score);
 
-    if (!!detectMatchWinner(score)) {
-      prompt(`Congrats! ${detectMatchWinner(score)} has won the match.`);
+    if (detectMatchWinner(score)) {
+      prompt(`The ${displayMatchWinner(score)} has won the match.`);
       break;
     }
   }
