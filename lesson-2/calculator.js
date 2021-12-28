@@ -77,5 +77,5 @@ while (cont === true) {
 
   //if (answer !== 'y') break;
   cont = answer.startsWith('y');
-  if (cont) console.clear();
+  console.clear();
 }
