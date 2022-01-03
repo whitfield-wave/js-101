@@ -93,7 +93,31 @@ function busted(handTotal) {
   return handTotal > WINNING_SCORE;
 }
 
-function dealerTurn(dealerHand, shuffledDeck,dealerTotal) {
+function playerTurn(playerHand, dealerHand, playerTotal, shuffledDeck) {
+  while (true) {
+    displayDealerHand(dealerHand);
+    displayPlayerHand(playerHand, playerTotal);
+
+    prompt("Hit or stay? Enter 'h' or 's'. ");
+    let hitOrStay = rl.question().toLowerCase().trim();
+    while (!['h', 's'].includes(hitOrStay)) {
+      prompt("Please enter 'h' or 's'.");
+      hitOrStay = rl.question().toLowerCase().trim();
+    }
+
+    if (hitOrStay === 'h') {
+      hit(playerHand, shuffledDeck);
+      playerTotal = handTotal(playerHand);
+      console.clear();
+      prompt(`You chose to hit${busted(playerTotal) ? ' and busted' : ''}!\n`);
+    }
+
+    if (hitOrStay === 's' || busted(playerTotal)) return playerTotal;
+
+  }
+}
+
+function dealerTurn(dealerHand, shuffledDeck, dealerTotal) {
   let sum = dealerTotal;
   while (sum < DEALER_BREAKPOINT) {
     dealerHand.push(shuffledDeck.pop());
@@ -105,7 +129,7 @@ function dealerTurn(dealerHand, shuffledDeck,dealerTotal) {
 function chooseWinner(playerTotal, dealerTotal) {
   if (busted(playerTotal)) {
     return 'player_busted';
-  } else if ((busted(dealerTotal))) {
+  } else if (busted(dealerTotal)) {
     return 'dealer_busted';
   } else if (playerTotal === dealerTotal) {
     return 'tie';
@@ -144,7 +168,7 @@ function getYesOrNo() {
   let answer = rl.question().toLowerCase().trim();
 
   while (!['y', 'n'].includes(answer)) {
-    prompt("Please enter 'y' or 'n'." );
+    prompt("Please enter 'y' or 'n'.");
     answer = rl.question().toLowerCase().trim();
   }
   return answer;
@@ -169,26 +193,7 @@ while (true) {
   while (true) {
 
     // PLAYER'S TURN
-    while (true) {
-      displayDealerHand(dealerHand);
-      displayPlayerHand(playerHand, playerTotal);
-
-      prompt("Hit or stay? Enter 'h' or 's'. ");
-      let hitOrStay = rl.question();
-      while (!['h', 's'].includes(hitOrStay)) {
-        prompt("Please enter 'h' or 's'.");
-        hitOrStay = rl.question();
-      }
-
-      if (hitOrStay === 'h') {
-        hit(playerHand, shuffledDeck);
-        playerTotal = handTotal(playerHand);
-        prompt(`You chose to hit${busted(playerTotal) ? ' and busted' : ''}!\n`);
-      }
-
-      if (hitOrStay === 's' || busted(playerTotal)) break;
-
-    }
+    playerTotal = playerTurn(playerHand, dealerHand, playerTotal, shuffledDeck);
 
     // END OF PLAYER'S TURN
     if (busted(playerTotal)) {
